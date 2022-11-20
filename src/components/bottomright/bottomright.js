@@ -1,4 +1,5 @@
 import './bottomright.css';
+import { Timeline } from '../timeline';
 
 function Bottomright(props) {
   
