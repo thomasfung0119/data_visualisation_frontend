@@ -1,6 +1,7 @@
 .dropdown {
     position: absolute;
-    right: 70px;
+    right: 60px;
+    top: 60px
 }
 
 .dropdown button {
