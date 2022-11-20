@@ -92,23 +92,6 @@ export const Globe = (props) => {
     // const sequentialColorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 1]);
     const interpolator = d3.interpolateGreens;
 
-    // add color scale legend
-    svg.append('g')
-      .attr("class", "scale")
-      .attr("transform", `translate(${width / 2 - 250}, ${height - 30})`)
-      .selectAll('rect')
-      .data(d3.range(0, 1, 0.1))
-      .join('rect')
-      .attr("class", "scale-bin")
-      .attr('x', function (d) {
-        return d3.scaleLinear().range([0, 500])(d);
-      })
-      .attr('width', 51)
-      .attr('height', 20)
-      .style('fill', function (d) {
-        return interpolator(d);
-      });
-
     // draw countries
     (async () => {
       const json = await d3.json("/countries-110m.json");
@@ -166,11 +149,25 @@ export const Globe = (props) => {
                 projection.rotate(r(t));
                 svg.selectAll("path").attr("d", path);
               });
-          } else {
-            // cancel select all countries
-            d3.selectAll(".clicked").classed("clicked", false).style("fill", "#e7e7e7");
           }
         });
+
+      // add color scale legend
+      svg.append('g')
+      .attr("class", "scale")
+      .attr("transform", `translate(${width / 2 - 250}, ${height - 30})`)
+      .selectAll('rect')
+      .data(d3.range(0, 1, 0.1))
+      .join('rect')
+      .attr("class", "scale-bin")
+      .attr('x', function (d) {
+        return d3.scaleLinear().range([0, 500])(d);
+      })
+      .attr('width', 51)
+      .attr('height', 20)
+      .style('fill', function (d) {
+        return interpolator(d);
+      });
 
     })();
   }, []);
