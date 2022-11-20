@@ -89,13 +89,31 @@ export const Globe = (props) => {
     //   svg.selectAll("path").attr("d", path)
     // }, 200);
 
+    // const sequentialColorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 1]);
+    const interpolator = d3.interpolateGreens;
+
+    // add color scale legend
+    svg.append('g')
+      .attr("class", "scale")
+      .attr("transform", `translate(${width / 2 - 250}, ${height - 30})`)
+      .selectAll('rect')
+      .data(d3.range(0, 1, 0.1))
+      .join('rect')
+      .attr("class", "scale-bin")
+      .attr('x', function (d) {
+        return d3.scaleLinear().range([0, 500])(d);
+      })
+      .attr('width', 51)
+      .attr('height', 20)
+      .style('fill', function (d) {
+        return interpolator(d);
+      });
+
     // draw countries
     (async () => {
       const json = await d3.json("/countries-110m.json");
       const { countries, land } = json.objects;
       const feature = topoJson.feature(json, countries);
-      // const sequentialColorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 1]);
-      const interpolator = d3.interpolateGreens;
       svg.append('g')
         .attr("class", "countries")
         .selectAll('path')
