@@ -78,16 +78,16 @@ export const Globe = (props) => {
     svg.call(drag).call(zoom);
 
     // Optional auto rotate
-    d3.timer(function (elapsed) {
-      const rotate = projection.rotate()
-      const k = sensitivity / projection.scale()
-      projection.rotate([
-        rotate[0] - 1 * k,
-        rotate[1]
-      ])
-      path = d3.geoPath().projection(projection)
-      svg.selectAll("path").attr("d", path)
-    }, 200);
+    // d3.timer(function (elapsed) {
+    //   const rotate = projection.rotate()
+    //   const k = sensitivity / projection.scale()
+    //   projection.rotate([
+    //     rotate[0] - 1 * k,
+    //     rotate[1]
+    //   ])
+    //   path = d3.geoPath().projection(projection)
+    //   svg.selectAll("path").attr("d", path)
+    // }, 200);
 
     // draw countries
     (async () => {
@@ -126,6 +126,16 @@ export const Globe = (props) => {
             d3.select(this).classed("clicked", true).style("fill", "red");
             const country = d.properties.name;
             onClick(country);
+
+            // center selected country
+            d3.select(this).transition()
+              .duration(750)
+              .tween("rotate", () => (t) => {
+                let p = d3.geoCentroid(d);
+                let r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+                projection.rotate(r(t));
+                svg.selectAll("path").attr("d", path);
+              });
           } else {
             // cancel select all countries
             d3.selectAll(".clicked").classed("clicked", false).style("fill", "#e7e7e7");
