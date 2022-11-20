@@ -1,18 +1,35 @@
-.button {
+.Button {
     font-size: x-small;
     background-color: white;
     color: black;
-    padding: 10px 60px 10px 60px; 
+    padding: 40px 40px 0px 40px; 
     border-radius: 5px;
-    margin: 25px;
+    margin: 25px 25px 10px 25px;
     cursor: pointer;
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    align-items: left;
-    justify-content: center;
+    height:60%;
+    width:100%;
 }
 
-.button h1{
+.activeButton {
+    font-size: x-small;
+    background-color: white;
     color: black;
+    padding: 40px 40px 0px 40px; 
+    border-radius: 5px;
+    margin: 25px 25px 10px 25px;
+    cursor: pointer;
+    height:60%;
+    width:100%;
+    opacity: 0.6;
+}
+.Button h1{
+    color: black;
+}
+
+.Image {
+    object-fit: contain;
+    border-radius: 5px;
+    cursor: pointer;
+    height:100%;
+    width:100%;
 }
