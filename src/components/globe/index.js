@@ -20,7 +20,7 @@ export const Globe = (props) => {
 
     // projection - orthographic
     const projection = d3.geoOrthographic()
-      .scale(width / 3)
+      .scale(Math.min(width, height) / 2.5)
       .rotate([0, 0])
       .center([0, 0])
       .translate([width / 2, height / 2]);
@@ -78,22 +78,24 @@ export const Globe = (props) => {
     svg.call(drag).call(zoom);
 
     // Optional auto rotate
-    d3.timer(function (elapsed) {
-      const rotate = projection.rotate()
-      const k = sensitivity / projection.scale()
-      projection.rotate([
-        rotate[0] - 1 * k,
-        rotate[1]
-      ])
-      path = d3.geoPath().projection(projection)
-      svg.selectAll("path").attr("d", path)
-    }, 200);
+    // d3.timer(function (elapsed) {
+    //   const rotate = projection.rotate()
+    //   const k = sensitivity / projection.scale()
+    //   projection.rotate([
+    //     rotate[0] - 1 * k,
+    //     rotate[1]
+    //   ])
+    //   path = d3.geoPath().projection(projection)
+    //   svg.selectAll("path").attr("d", path)
+    // }, 200);
 
     // draw countries
     (async () => {
       const json = await d3.json("/countries-110m.json");
       const { countries, land } = json.objects;
       const feature = topoJson.feature(json, countries);
+      // const sequentialColorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 1]);
+      const interpolator = d3.interpolateGreens;
       svg.append('g')
         .attr("class", "countries")
         .selectAll('path')
@@ -101,7 +103,7 @@ export const Globe = (props) => {
         .enter().append('path')
         .attr("class", "country")
         .attr("d", path)
-        .style('fill', (d, i) => '#e7e7e7')
+        .style('fill', (d, i) => interpolator(Math.random()))
         .style('stroke', '#121212')
         .style('stroke-width', 0.3)
         .style("opacity", 0.8)
@@ -109,23 +111,43 @@ export const Globe = (props) => {
           if (d3.select(this).classed("clicked")) {
             return;
           }
-          d3.select(this).style("fill", "#cccccc");
+          d3.select(this)
+            .style("stroke", "red")
+            .style('stroke-width', 2);
         })
         .on("mouseout", function (e) {
           if (d3.select(this).classed("clicked")) {
             return;
           }
-          d3.select(this).style("fill", "#e7e7e7");
+          d3.select(this)
+            .style("stroke", "#121212")
+            .style('stroke-width', 0.3);
         })
         .on("click", function (e, d) {
           // if not yet selected
           if (!d3.select(this).classed("clicked")) {
             // cancel select other countries
-            d3.selectAll(".clicked").classed("clicked", false).style("fill", "#e7e7e7");
+            d3.selectAll(".clicked")
+              .classed("clicked", false)
+              .style("stroke", "#121212")
+              .style('stroke-width', 0.3);
             // select this country
-            d3.select(this).classed("clicked", true).style("fill", "red");
+            d3.select(this)
+              .classed("clicked", true)
+              .style("stroke", "red")
+              .style('stroke-width', 2);
             const country = d.properties.name;
             onClick(country);
+
+            // center selected country
+            d3.select(this).transition()
+              .duration(750)
+              .tween("rotate", () => (t) => {
+                let p = d3.geoCentroid(d);
+                let r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+                projection.rotate(r(t));
+                svg.selectAll("path").attr("d", path);
+              });
           } else {
             // cancel select all countries
             d3.selectAll(".clicked").classed("clicked", false).style("fill", "#e7e7e7");
