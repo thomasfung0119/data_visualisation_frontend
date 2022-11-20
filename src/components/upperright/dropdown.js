@@ -30,7 +30,7 @@ function Dropdown(props) {
 
   return (
     <div className="dropdown">
-      <button onClick={handleOpen}>{props.menu}</button>
+      <button onClick={handleOpen}>{`${props.menu}⠀⠀▼`}</button>
       {open ? (
         <ul className="menu">
           <li className="menu-item">

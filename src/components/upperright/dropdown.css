@@ -1,9 +1,11 @@
 .dropdown {
-    position: relative;
+    position: absolute;
+    right: 60px;
+    top: 60px
 }
 
 .dropdown button {
-    width: 150px;
+    width: 200px;
     height: 100%;
     text-align: center;
 
@@ -14,6 +16,11 @@
     margin: 0;
     font: inherit;
     cursor: pointer;
+    
+}
+
+.selector {
+    justify-content: space-around;
 }
 
 .menu {
@@ -24,7 +31,7 @@
     padding: 0;
 
     border: 1px solid grey;
-    width: 150px;
+    width: 200px;
 }
 
 .menu > li {
