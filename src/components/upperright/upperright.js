@@ -7,6 +7,7 @@ import {
   PointElement,
   Filler,
   LineElement,
+  Tooltip,
   Legend
 } from "chart.js"
 import './upperright.css';
@@ -21,7 +22,8 @@ function Upperright(props) {
     PointElement,
     LineElement,
     Filler,
-    Legend
+    Tooltip,
+    Legend,
   )
   
   const line_data = {
