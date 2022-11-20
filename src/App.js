@@ -1,23 +1,39 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Upperleft from './components/upperleft/upperleft';
+import Upperright from './components/upperright/upperright';
+import Bottomleft from './components/bottomleft/bottomleft';
+import Bottomright from './components/bottomright/bottomright';
 
 function App() {
+  const [country, setCountry] = useState("Hong Kong");
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div class="App-parent">
+        <div class="App-div1"> 
+          <Upperleft 
+            country = {country}
+          />   
+        </div>
+        <div class="App-div2"> 
+          <Bottomleft 
+            country = {country}
+            setCountry = {setCountry}
+          />  
+        </div>
+        <div class="App-div3"> 
+          <Upperright
+            country = {country}
+          />  
+        </div>
+        <div class="App-div4"> 
+          <Bottomright
+            country = {country}
+          /> 
+        </div>
+      </div>
     </div>
   );
 }
