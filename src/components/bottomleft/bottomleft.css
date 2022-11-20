@@ -6,7 +6,13 @@
     align-items: center;
     justify-content: center;
 }
-
-.bottomleft p{
+.bottomleft .title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 100%;
+    font-size: 25px;
     color: white;
 }

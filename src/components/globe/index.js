@@ -9,7 +9,7 @@ export const Globe = (props) => {
 
   useEffect(() => {
     const width = svgRef.current.parentElement.clientWidth;
-    const height = svgRef.current.parentElement.clientHeight;
+    const height = svgRef.current.parentElement.clientHeight - 50;
     // the main svg
     const svg = d3.select(svgRef.current)
       .attr('width', width)
@@ -176,7 +176,7 @@ export const Globe = (props) => {
   }, []);
 
   return (
-    <svg ref={svgRef} />
+      <svg ref={svgRef} />
   )
 }
 

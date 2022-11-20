@@ -7,6 +7,7 @@ function Bottomleft(props) {
 
   return (
     <div className="bottomleft">
+      <div class="title">You are checking covid data of {country}</div>
       <Globe sensitivity={75} onClick={(country) => setCountry(country)} />
     </div>
 
