@@ -3,7 +3,7 @@
 }
 
 .dropdown button {
-    width: 150px;
+    width: 200px;
     height: 100%;
     text-align: center;
 
@@ -16,6 +16,10 @@
     cursor: pointer;
 }
 
+.selector {
+    justify-content: space-around;
+}
+
 .menu {
     position: absolute;
 
@@ -24,7 +28,7 @@
     padding: 0;
 
     border: 1px solid grey;
-    width: 150px;
+    width: 200px;
 }
 
 .menu > li {
