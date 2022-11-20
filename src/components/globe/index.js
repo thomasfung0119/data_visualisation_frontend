@@ -20,7 +20,7 @@ export const Globe = (props) => {
 
     // projection - orthographic
     const projection = d3.geoOrthographic()
-      .scale(width / 3)
+      .scale(Math.min(width, height) / 2.5)
       .rotate([0, 0])
       .center([0, 0])
       .translate([width / 2, height / 2]);
