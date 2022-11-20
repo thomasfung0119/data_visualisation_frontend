@@ -4,8 +4,8 @@ import * as d3 from "d3";
 export const Timeline = (country) => {
   const svgRef = useRef(null);
 
-  useEffect((country) => {
-    const width = 600;
+  useEffect(() => {
+    const width = svgRef.current.parentElement.clientWidth;
     const height = 45;
     // the main svg
     const svg = d3.select(svgRef.current)
@@ -19,81 +19,53 @@ export const Timeline = (country) => {
     (async () => {
       const margin = { left: 30, top: 10, right: 10, bottom: 20 };
 
+      const data = [
+        new Date("2021-08"),
+        new Date("2021-09"),
+        new Date("2021-10"),
+        new Date("2021-11"),
+        new Date("2021-12"),
+        new Date("2022-01"),
+        new Date("2022-02"),
+        new Date("2022-03"),
+        new Date("2022-04"),
+        new Date("2022-05"),
+        new Date("2022-06"),
+      ];
+
       const xScale = d3.scaleTime()
         .range([margin.left, width - margin.right])
-        .domain([new Date("2021-08"), new Date("2022-06")]);
-      
+        .domain(d3.extent(data));
+
+      // add axis
+      const xAxis = d3.axisBottom(xScale)
+        .tickFormat(d3.timeFormat('%Y-%m'));
+
       svg.append('g')
-        .call(d3.axisBottom(xScale))
+        .call(xAxis)
+        .attr("class", "x-axis")
         .attr('transform', `translate(0,${height - margin.bottom})`);
-      
-      svg.append('circle')
+
+      // style axis
+      svg.select(".domain")
+        .style("stroke", "white");
+      svg.selectAll(".tick")
+        .style("color", "white")
+        .style("stroke-width", 0.3);
+
+      // add time line bubbles
+      svg.append('g')
+        .attr("class", "time-line")
+        .selectAll("circle")
+        .data(data)
+        .enter().append("circle")
+        .attr("class", "time-line-bubble")
         .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2021-8")))
+        .attr('cx', (d) => xScale(d))
         .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5)  
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2021-9")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5) 
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2021-10")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5) 
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2021-11")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5) 
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2021-12")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5) 
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2022-1")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5) 
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2022-2")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5) 
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2022-3")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5) 
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2022-4")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5)
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2022-5")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5)
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2022-6")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5)
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2022-7")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5)
-      svg.append('circle')
-        .style("fill", "Aqua")
-        .attr('cx', xScale(new Date("2022-8")))
-        .attr('cy', 20)
-        .attr('r', Math.floor(Math.random(5)*6)+5)
+        .attr('r', (d) => Math.floor(Math.random() * 6) + 5)
     })();
-  }, []);
+  }, [country]);
 
   return (
     <svg ref={svgRef} />
