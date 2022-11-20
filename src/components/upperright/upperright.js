@@ -134,11 +134,14 @@ function Upperright(props) {
     case 'Line Chart':
       return (
         <div className="upperright">
-          <Dropdown 
-            menu = {menu}
-            setMenu = {setMenu}
-          />
-          <p>{menu} of {props.country}</p>
+          <div class = "title">
+            <h1>{menu} of {props.country}</h1>
+            <Dropdown 
+              menu = {menu}
+              setMenu = {setMenu}
+            />
+          </div>
+          
           <Line
             data= {line_data}
             options= {options}
@@ -148,11 +151,13 @@ function Upperright(props) {
     case 'Area Chart':
       return (
         <div className="upperright">
-          <Dropdown 
-            menu = {menu}
-            setMenu = {setMenu}
-          />
-          <p>{menu} of {props.country}</p>
+          <div class = "title">
+            <h1>{menu} of {props.country}</h1>
+            <Dropdown 
+              menu = {menu}
+              setMenu = {setMenu}
+            />
+          </div>
           <Line
             data= {area_data}
             options= {options}
@@ -162,11 +167,13 @@ function Upperright(props) {
     case 'Scatter Chart':
       return (
         <div className="upperright">
-          <Dropdown 
-            menu = {menu}
-            setMenu = {setMenu}
-          />
-          <p>{menu} of {props.country}</p>
+          <div class = "title">
+            <h1>{menu} of {props.country}</h1>
+            <Dropdown 
+              menu = {menu}
+              setMenu = {setMenu}
+            />
+          </div>
           <Scatter
             data= {scatter_data}
             options= {options}
@@ -176,11 +183,13 @@ function Upperright(props) {
     case 'Bar Chart':
       return (
         <div className="upperright">
-          <Dropdown 
-            menu = {menu}
-            setMenu = {setMenu}
-          />
-          <p>{menu} of {props.country}</p>
+          <div class = "title">
+            <h1>{menu} of {props.country}</h1>
+            <Dropdown 
+              menu = {menu}
+              setMenu = {setMenu}
+            />
+          </div>
           <Bar
             data= {bar_data}
             options= {options}
