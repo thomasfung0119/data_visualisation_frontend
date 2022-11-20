@@ -10,7 +10,7 @@ import {
   Legend
 } from "chart.js"
 import './upperright.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dropdown from './dropdown'
 
 function Upperright(props) {
@@ -23,6 +23,49 @@ function Upperright(props) {
     Filler,
     Legend
   )
+
+  // PRNG using country name
+  useEffect(() => {
+    const country = props.country;
+    // seed = sum of first 4 character of the name of country
+    let next = country.charCodeAt(0) + country.charCodeAt(1) + country.charCodeAt(2) + country.charCodeAt(3);
+    // generate line data
+    const line1 = [];
+    const line2 = [];
+    for (let i = 0; i < 10; i++) {
+      next = randNext(next);
+      (i < 5) ? line1.push(Math.abs(next % 100)*10) : line2.push(Math.abs(next % 100)*10);
+    }
+    setLineData1(line1);
+    setLineData2(line2);
+
+    const pt1 = [];
+    const pt2 = [];
+    for (let i = 0; i < 10; i++) {
+      let point = {x: 0, y: 0};
+      next = randNext(next);
+      point.x = ((next % 1000) / 100);
+      next = randNext(next);
+      point.y = ((next % 1000) / 100);
+      (i < 5) ? pt1.push(point) : pt2.push(point);
+    }
+    setScatterData1(pt1);
+    setScatterData2(pt2);
+  }, [props.country])
+
+  const [menu, setMenu] = useState("Line Chart");
+  const [lineData1, setLineData1] = useState([400, 300, 350, 200, 280]);
+  const [lineData2, setLineData2] = useState([300, 400, 350, 100, 220]);
+  const [scatterData1, setScatterData1] = useState([{x: -10, y: 0}, {x: 0, y: 10}, {x: 10, y: 5}, {x: 0.5, y: 5.5}]);
+  const [scatterData2, setScatterData2] = useState([{x: -2, y: 0}, {x: 3, y: 10}, {x: 10, y: 6}, {x: 1.5, y: 5.5}]);
+  
+  // the main operation for PRNG
+  const randNext = (num) => {
+    num ^= num << 13;
+    num ^= num >> 17;
+    num ^= num << 5;
+    return num;
+  }
   
   const line_data = {
     labels: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
@@ -30,14 +73,14 @@ function Upperright(props) {
       {
         fill: false,
         label: "Item1",
-        data: [400, 300, 350, 200, 280],
+        data: lineData1,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       }, 
       {
         fill: false,
         label: "Item2",
-        data: [300, 400, 350, 100, 220],
+        data: lineData2,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       }
@@ -49,14 +92,14 @@ function Upperright(props) {
       {
         fill: true,
         label: "Item1",
-        data: [400, 300, 350, 200, 280],
+        data: lineData1,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       }, 
       {
         fill: true,
         label: "Item2",
-        data: [300, 400, 350, 100, 220],
+        data: lineData2,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       }
@@ -67,14 +110,14 @@ function Upperright(props) {
       {
         fill: true,
         label: "Item1",
-        data: [{x: -10, y: 0}, {x: 0, y: 10}, {x: 10, y: 5}, {x: 0.5, y: 5.5}],
+        data: scatterData1,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       }, 
       {
         fill: true,
         label: "Item2",
-        data: [{x: -2, y: 0}, {x: 3, y: 10}, {x: 10, y: 6}, {x: 1.5, y: 5.5}],
+        data: scatterData2,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       }
@@ -85,13 +128,13 @@ function Upperright(props) {
     datasets: [
       {
         label: "Item1",
-        data: [400, 300, 350, 200, 280],
+        data: lineData1,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       }, 
       {
         label: "Item2",
-        data: [300, 400, 350, 100, 220],
+        data: lineData2,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       }
@@ -110,16 +153,16 @@ function Upperright(props) {
     scales: {
         yAxes:{
             grid: {
-                color: '#FFFFFF',
+                color: 'grey',
             },
             ticks:{
                 color: 'white',
                 fontSize: 12,
-            }
+            },
         },
         xAxes: {
             grid: {
-                color: '#FFFFFF',
+                color: 'grey',
             },
             ticks:{
                 color: 'white',
@@ -128,7 +171,6 @@ function Upperright(props) {
         },
     },
   }
-  const [menu, setMenu] = useState("Line Chart");
 
   switch (menu){
     case 'Line Chart':
