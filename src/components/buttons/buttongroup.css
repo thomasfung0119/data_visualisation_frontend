@@ -1,0 +1,10 @@
+.ButtonGroup {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: center;
+    width:50%;
+
+}
+
