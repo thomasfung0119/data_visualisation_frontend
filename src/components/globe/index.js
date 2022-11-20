@@ -94,6 +94,8 @@ export const Globe = (props) => {
       const json = await d3.json("/countries-110m.json");
       const { countries, land } = json.objects;
       const feature = topoJson.feature(json, countries);
+      // const sequentialColorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 1]);
+      const interpolator = d3.interpolateGreens;
       svg.append('g')
         .attr("class", "countries")
         .selectAll('path')
@@ -101,7 +103,7 @@ export const Globe = (props) => {
         .enter().append('path')
         .attr("class", "country")
         .attr("d", path)
-        .style('fill', (d, i) => '#e7e7e7')
+        .style('fill', (d, i) => interpolator(Math.random()))
         .style('stroke', '#121212')
         .style('stroke-width', 0.3)
         .style("opacity", 0.8)
@@ -109,21 +111,31 @@ export const Globe = (props) => {
           if (d3.select(this).classed("clicked")) {
             return;
           }
-          d3.select(this).style("fill", "#cccccc");
+          d3.select(this)
+            .style("stroke", "red")
+            .style('stroke-width', 2);
         })
         .on("mouseout", function (e) {
           if (d3.select(this).classed("clicked")) {
             return;
           }
-          d3.select(this).style("fill", "#e7e7e7");
+          d3.select(this)
+            .style("stroke", "#121212")
+            .style('stroke-width', 0.3);
         })
         .on("click", function (e, d) {
           // if not yet selected
           if (!d3.select(this).classed("clicked")) {
             // cancel select other countries
-            d3.selectAll(".clicked").classed("clicked", false).style("fill", "#e7e7e7");
+            d3.selectAll(".clicked")
+              .classed("clicked", false)
+              .style("stroke", "#121212")
+              .style('stroke-width', 0.3);
             // select this country
-            d3.select(this).classed("clicked", true).style("fill", "red");
+            d3.select(this)
+              .classed("clicked", true)
+              .style("stroke", "red")
+              .style('stroke-width', 2);
             const country = d.properties.name;
             onClick(country);
 
