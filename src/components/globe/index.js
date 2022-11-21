@@ -4,7 +4,7 @@ import * as topoJson from 'topojson-client';
 import PropTypes from 'prop-types';
 
 export const Globe = (props) => {
-  const { sensitivity, onClick, valueMapper, interpolator } = props;
+  const { sensitivity, onClick, valueMapper, interpolator, maxValue } = props;
   const svgRef = useRef(null);
 
   let rendered = false;
@@ -160,21 +160,38 @@ export const Globe = (props) => {
         });
 
       // add color scale legend
-      svg.append('g')
+      const scale = svg.append('g')
         .attr("class", "scale")
-        .attr("transform", `translate(${width / 2 - 250}, ${height - 30})`)
+        .attr("transform", `translate(${width / 2 - 150}, ${height - 20})`)
+
+      scale.append('text')
+        .text("0")
+        .attr("transform", `translate(${-20}, ${13})`)
+        .style('fill', "#ccc")
+        .style("stroke", "#121212")
+        .style("stroke-width", 0.3)
+
+      scale
         .selectAll('rect')
         .data(d3.range(0, 1, 0.1))
         .join('rect')
         .attr("class", "scale-bin")
         .attr('x', function (d) {
-          return d3.scaleLinear().range([0, 500])(d);
+          return d3.scaleLinear().range([0, 300])(d);
         })
-        .attr('width', 51)
+        .attr('width', 31)
         .attr('height', 20)
         .style('fill', function (d) {
           return interpolator(d);
         });
+
+      scale.append('text')
+        .text(maxValue)
+        .attr('x', 300)
+        .attr("transform", `translate(${10}, ${13})`)
+        .style('fill', "#ccc")
+        .style("stroke", "#121212")
+        .style("stroke-width", 0.3)
 
     })();
 

@@ -62,6 +62,7 @@ function Bottomleft(props) {
             data[country] ? getData(data[country]) / max : null
           }
           interpolator={getInterpolator()}
+          maxValue={max}
         />
       )}
     </div>
