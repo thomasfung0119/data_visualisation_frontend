@@ -233,7 +233,7 @@ function Upperright(props) {
   return (
     <div className="upperright">
       <div class="title">
-        {country && <h1>{menu} of {props.country}</h1>}
+        {country && <h1>Relational {menu} of {props.country}</h1>}
         {!country && <h1>Select a country</h1>}
         <Dropdown
           menu={menu}
