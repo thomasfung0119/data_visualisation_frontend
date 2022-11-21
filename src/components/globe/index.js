@@ -91,7 +91,7 @@ export const Globe = (props) => {
 
     // draw countries
     (async () => {
-      const json = await d3.json("/countries-110m.json");
+      const json = await d3.json("countries-110m.json");
       const { countries, land } = json.objects;
       const feature = topoJson.feature(json, countries);
       svg.append('g')
