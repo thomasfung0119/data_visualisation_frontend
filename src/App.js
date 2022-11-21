@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Upperleft from './components/upperleft/upperleft';
 import Upperright from './components/upperright/upperright';
@@ -7,6 +7,17 @@ import Bottomright from './components/bottomright/bottomright';
 
 function App() {
   const [country, setCountry] = useState(null);
+  const [data, setData] = useState(null);
+
+  const fetchData = async () => {
+    const res = await fetch("http://localhost:5000/api/getAll");
+    const json = await res.json();
+    setData(json);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="App">
@@ -20,6 +31,7 @@ function App() {
           <Bottomleft
             country={country}
             setCountry={setCountry}
+            data={data}
           />
         </div>
         <div class="App-div3">

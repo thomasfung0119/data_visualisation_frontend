@@ -4,11 +4,11 @@ import * as topoJson from 'topojson-client';
 import PropTypes from 'prop-types';
 
 export const Globe = (props) => {
-  const { sensitivity, onClick } = props;
+  const { sensitivity, onClick, valueMapper, interpolator } = props;
   const svgRef = useRef(null);
 
   useEffect(() => {
-    const width = svgRef.current.parentElement.clientWidth ;
+    const width = svgRef.current.parentElement.clientWidth;
     const height = svgRef.current.parentElement.clientHeight - 70;
     // the main svg
     const svg = d3.select(svgRef.current)
@@ -89,9 +89,6 @@ export const Globe = (props) => {
     //   svg.selectAll("path").attr("d", path)
     // }, 200);
 
-    // const sequentialColorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 1]);
-    const interpolator = d3.interpolateGreens;
-
     // draw countries
     (async () => {
       const json = await d3.json("/countries-110m.json");
@@ -104,7 +101,14 @@ export const Globe = (props) => {
         .enter().append('path')
         .attr("class", "country")
         .attr("d", path)
-        .style('fill', (d, i) => interpolator(Math.random()))
+        .style('fill', (d, i) => {
+          const value = valueMapper(d.properties.name);
+          if (value) {
+            return interpolator(value)
+          } else {
+            return "#121212"
+          }
+        }) // callback(country)
         .style('stroke', '#121212')
         .style('stroke-width', 0.3)
         .style("opacity", 0.8)
@@ -154,26 +158,26 @@ export const Globe = (props) => {
 
       // add color scale legend
       svg.append('g')
-      .attr("class", "scale")
-      .attr("transform", `translate(${width / 2 - 250}, ${height - 30})`)
-      .selectAll('rect')
-      .data(d3.range(0, 1, 0.1))
-      .join('rect')
-      .attr("class", "scale-bin")
-      .attr('x', function (d) {
-        return d3.scaleLinear().range([0, 500])(d);
-      })
-      .attr('width', 51)
-      .attr('height', 20)
-      .style('fill', function (d) {
-        return interpolator(d);
-      });
+        .attr("class", "scale")
+        .attr("transform", `translate(${width / 2 - 250}, ${height - 30})`)
+        .selectAll('rect')
+        .data(d3.range(0, 1, 0.1))
+        .join('rect')
+        .attr("class", "scale-bin")
+        .attr('x', function (d) {
+          return d3.scaleLinear().range([0, 500])(d);
+        })
+        .attr('width', 51)
+        .attr('height', 20)
+        .style('fill', function (d) {
+          return interpolator(d);
+        });
 
     })();
   }, []);
 
   return (
-      <svg ref={svgRef} />
+    <svg ref={svgRef} />
   )
 }
 
