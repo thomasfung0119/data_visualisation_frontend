@@ -18,11 +18,6 @@ function Dropdown(props) {
     setOpen(false);
   };
 
-  const handleMenuThree = () => {
-    props.setMenu('Scatter Chart');
-    setOpen(false);
-  };
-
   const handleMenuFour = () => {
     props.setMenu('Bar Chart');
     setOpen(false);
@@ -38,9 +33,6 @@ function Dropdown(props) {
           </li>
           <li className="menu-item">
             <button onClick={handleMenuTwo}>Area Chart</button>
-          </li>
-          <li className="menu-item">
-            <button onClick={handleMenuThree}>Scatter Chart</button>
           </li>
           <li className="menu-item">
             <button onClick={handleMenuFour}>Bar Chart</button>
