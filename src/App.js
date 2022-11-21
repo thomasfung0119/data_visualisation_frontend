@@ -6,32 +6,31 @@ import Bottomleft from './components/bottomleft/bottomleft';
 import Bottomright from './components/bottomright/bottomright';
 
 function App() {
-  const [country, setCountry] = useState("Hong Kong");
-
+  const [country, setCountry] = useState(null);
 
   return (
     <div className="App">
       <div class="App-parent">
-        <div class="App-div1"> 
-          <Upperleft 
-            country = {country}
-          />   
+        <div class="App-div1">
+          <Upperleft
+            country={country}
+          />
         </div>
-        <div class="App-div2"> 
-          <Bottomleft 
-            country = {country}
-            setCountry = {setCountry}
-          />  
+        <div class="App-div2">
+          <Bottomleft
+            country={country}
+            setCountry={setCountry}
+          />
         </div>
-        <div class="App-div3"> 
+        <div class="App-div3">
           <Upperright
-            country = {country}
-          />  
+            country={country}
+          />
         </div>
-        <div class="App-div4"> 
+        <div class="App-div4">
           <Bottomright
-            country = {country}
-          /> 
+            country={country}
+          />
         </div>
       </div>
     </div>

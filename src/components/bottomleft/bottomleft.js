@@ -7,7 +7,8 @@ function Bottomleft(props) {
 
   return (
     <div className="bottomleft">
-      <div class="title">You are checking covid data of {country}</div>
+      {country && <div class="title">You are checking covid data of {country}</div>}
+      {!country && <div class="title">Select a country on the Globe to view its data</div>}
       <Globe sensitivity={75} onClick={(country) => setCountry(country)} />
     </div>
 
