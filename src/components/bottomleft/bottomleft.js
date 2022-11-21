@@ -6,14 +6,14 @@ import ButtonGroup from "../buttons/buttongroup";
 
 function Bottomleft(props) {
   const { country, setCountry, data } = props;
-  const [menu, setMenu] = useState("infection");
+  const [menu, setMenu] = useState("infections");
 
   const getData = (obj) => {
     if (!obj) return null;
     switch (menu) {
-      case "infection":
+      case "infections":
         return obj.ConfirmedCase;
-      case "death":
+      case "deaths":
         return obj.MortalityCase;
       default:
         return null;
@@ -22,9 +22,9 @@ function Bottomleft(props) {
 
   const getInterpolator = () => {
     switch (menu) {
-      case "infection":
+      case "infections":
         return d3.interpolateBlues;
-      case "death":
+      case "deaths":
         return d3.interpolateReds;
       default:
         return null;
@@ -42,14 +42,14 @@ function Bottomleft(props) {
     <div className="bottomleft">
       <ButtonGroup
         buttons={[
-          { text: "death", imageURL: "./death.svg" },
-          { text: "infection", imageURL: "./infection.svg" },
+          { text: "deaths", imageURL: "./death.svg" },
+          { text: "infections", imageURL: "./infection.svg" },
         ]}
         selectedButton={menu}
         onToggle={(menu) => { setMenu(menu) }}
       />
       {country && (
-        <div class="title">You are checking covid data of {country}</div>
+        <div class="title">You are checking number of {menu} of {country}</div>
       )}
       {!country && (
         <div class="title">Select a country on the Globe to view its data</div>
