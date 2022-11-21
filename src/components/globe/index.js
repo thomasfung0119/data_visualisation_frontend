@@ -8,7 +8,7 @@ export const Globe = (props) => {
   const svgRef = useRef(null);
 
   useEffect(() => {
-    const width = svgRef.current.parentElement.clientWidth ;
+    const width = svgRef.current.parentElement.clientWidth;
     const height = svgRef.current.parentElement.clientHeight - 70;
     // the main svg
     const svg = d3.select(svgRef.current)
@@ -94,7 +94,7 @@ export const Globe = (props) => {
 
     // draw countries
     (async () => {
-      const json = await d3.json("/countries-110m.json");
+      const json = await d3.json("countries-110m.json");
       const { countries, land } = json.objects;
       const feature = topoJson.feature(json, countries);
       svg.append('g')
@@ -154,26 +154,26 @@ export const Globe = (props) => {
 
       // add color scale legend
       svg.append('g')
-      .attr("class", "scale")
-      .attr("transform", `translate(${width / 2 - 250}, ${height - 30})`)
-      .selectAll('rect')
-      .data(d3.range(0, 1, 0.1))
-      .join('rect')
-      .attr("class", "scale-bin")
-      .attr('x', function (d) {
-        return d3.scaleLinear().range([0, 500])(d);
-      })
-      .attr('width', 51)
-      .attr('height', 20)
-      .style('fill', function (d) {
-        return interpolator(d);
-      });
+        .attr("class", "scale")
+        .attr("transform", `translate(${width / 2 - 250}, ${height - 30})`)
+        .selectAll('rect')
+        .data(d3.range(0, 1, 0.1))
+        .join('rect')
+        .attr("class", "scale-bin")
+        .attr('x', function (d) {
+          return d3.scaleLinear().range([0, 500])(d);
+        })
+        .attr('width', 51)
+        .attr('height', 20)
+        .style('fill', function (d) {
+          return interpolator(d);
+        });
 
     })();
   }, []);
 
   return (
-      <svg ref={svgRef} />
+    <svg ref={svgRef} />
   )
 }
 
