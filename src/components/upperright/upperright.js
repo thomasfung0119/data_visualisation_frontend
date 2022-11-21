@@ -35,7 +35,6 @@ function Upperright(props) {
 
   // PRNG using country name
   useEffect(() => {
-    const { country } = props;
     // seed = sum of first 4 character of the name of country
     let next = country.charCodeAt(0) + country.charCodeAt(1) + country.charCodeAt(2) + country.charCodeAt(3);
     // generate line data
