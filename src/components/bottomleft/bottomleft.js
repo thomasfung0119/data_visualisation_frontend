@@ -18,9 +18,7 @@ function Bottomleft(props) {
     <div className="bottomleft">
       <ButtonGroup
         buttons={[
-          { text: "number of vaccination", imageURL: "./vaccine.svg" },
           { text: "death", imageURL: "./death.svg" },
-          { text: "vaccination rate", imageURL: "./rate.svg" },
           { text: "infection", imageURL: "./infection.svg" },
         ]}
       />
