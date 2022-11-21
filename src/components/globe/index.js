@@ -4,7 +4,7 @@ import * as topoJson from 'topojson-client';
 import PropTypes from 'prop-types';
 
 export const Globe = (props) => {
-  const { sensitivity, onClick } = props;
+  const { sensitivity, onClick, valueMapper, interpolator } = props;
   const svgRef = useRef(null);
 
   useEffect(() => {
@@ -89,9 +89,6 @@ export const Globe = (props) => {
     //   svg.selectAll("path").attr("d", path)
     // }, 200);
 
-    // const sequentialColorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 1]);
-    const interpolator = d3.interpolateGreens;
-
     // draw countries
     (async () => {
       const json = await d3.json("countries-110m.json");
@@ -104,7 +101,14 @@ export const Globe = (props) => {
         .enter().append('path')
         .attr("class", "country")
         .attr("d", path)
-        .style('fill', (d, i) => interpolator(Math.random()))
+        .style('fill', (d, i) => {
+          const value = valueMapper(d.properties.name);
+          if (value) {
+            return interpolator(value)
+          } else {
+            return "#121212"
+          }
+        }) // callback(country)
         .style('stroke', '#121212')
         .style('stroke-width', 0.3)
         .style("opacity", 0.8)

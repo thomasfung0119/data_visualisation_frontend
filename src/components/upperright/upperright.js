@@ -16,7 +16,7 @@ import Dropdown from './dropdown'
 import axios from 'axios';
 
 function Upperright(props) {
-  
+  const { country } = props;
   const [xaxis, setXaxis] = useState([])
   const [confirmedData, setConfirmedData] = useState([])
   const [deathData, setDeathData] = useState([])
@@ -24,21 +24,21 @@ function Upperright(props) {
   const [smokeData, setSmokeData] = useState([])
   const [exerciseData, setExerciseData] = useState([])
   useEffect(() => {
-    const fetch = 'http://127.0.0.1:5000/api/getData?country=' + props.country;
+    const fetch = 'http://127.0.0.1:5000/api/getData?country=' + country;
     axios.get(fetch)
-    .then(res => {
-      setXaxis(res.data.map(({Date})=>Date));
-      setConfirmedData(res.data.map(({ConfirmedCase})=>ConfirmedCase));
-      setDeathData(res.data.map(({DeathCase})=>DeathCase));
-      setVaccineData(res.data.map(({DeathWithVaccine})=>DeathWithVaccine));
-      setSmokeData(res.data.map(({DeathWithSmoke})=>DeathWithSmoke));
-      setExerciseData(res.data.map(({DeathWithExercise})=>DeathWithExercise));
-    })
-    .catch(err =>{
-      console.log(err)
-    })
+      .then(res => {
+        setXaxis(res.data.map(({ Date }) => Date));
+        setConfirmedData(res.data.map(({ ConfirmedCase }) => ConfirmedCase));
+        setDeathData(res.data.map(({ DeathCase }) => DeathCase));
+        setVaccineData(res.data.map(({ DeathWithVaccine }) => DeathWithVaccine));
+        setSmokeData(res.data.map(({ DeathWithSmoke }) => DeathWithSmoke));
+        setExerciseData(res.data.map(({ DeathWithExercise }) => DeathWithExercise));
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }, [props])
-  
+
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -49,9 +49,9 @@ function Upperright(props) {
     Tooltip,
     Legend,
   )
-  
+
   const [menu, setMenu] = useState("Line Chart");
-  
+
   const line_data = {
     labels: xaxis,
     datasets: [
@@ -61,28 +61,28 @@ function Upperright(props) {
         data: confirmedData,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      }, 
+      },
       {
         fill: false,
         label: "Death",
         data: deathData,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      }, 
+      },
       {
         fill: false,
         label: "Vacinnated Death",
         data: vaccineData,
         borderColor: 'rgb(178, 224, 97)',
         backgroundColor: 'rgba(178, 224, 97, 0.5)',
-      }, 
+      },
       {
         fill: false,
         label: "Smoke Death",
         data: smokeData,
         borderColor: 'rgb(189, 126, 190)',
         backgroundColor: 'rgba(189, 126, 190, 0.5)',
-      }, 
+      },
       {
         fill: false,
         label: "Exercise Death",
@@ -101,28 +101,28 @@ function Upperright(props) {
         data: confirmedData,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      }, 
+      },
       {
         fill: true,
         label: "Death",
         data: deathData,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      }, 
+      },
       {
         fill: true,
         label: "Vacinnated Death",
         data: vaccineData,
         borderColor: 'rgb(178, 224, 97)',
         backgroundColor: 'rgba(178, 224, 97, 0.5)',
-      }, 
+      },
       {
         fill: true,
         label: "Smoke Death",
         data: smokeData,
         borderColor: 'rgb(189, 126, 190)',
         backgroundColor: 'rgba(189, 126, 190, 0.5)',
-      }, 
+      },
       {
         fill: true,
         label: "Exercise Death",
@@ -140,25 +140,25 @@ function Upperright(props) {
         data: confirmedData,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      }, 
+      },
       {
         label: "Death",
         data: deathData,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      }, 
+      },
       {
         label: "Vacinnated Death",
         data: vaccineData,
         borderColor: 'rgb(178, 224, 97)',
         backgroundColor: 'rgba(178, 224, 97, 0.5)',
-      }, 
+      },
       {
         label: "Smoke Death",
         data: smokeData,
         borderColor: 'rgb(189, 126, 190)',
         backgroundColor: 'rgba(189, 126, 190, 0.5)',
-      }, 
+      },
       {
         label: "Exercise Death",
         data: exerciseData,
@@ -178,81 +178,71 @@ function Upperright(props) {
       }
     },
     scales: {
-        yAxes:{
-            grid: {
-                color: 'grey',
-            },
-            ticks:{
-                color: 'white',
-                fontSize: 12,
-            },
+      yAxes: {
+        grid: {
+          color: 'grey',
         },
-        xAxes: {
-            grid: {
-                color: 'grey',
-            },
-            ticks:{
-                color: 'white',
-                fontSize: 12,
-            }
+        ticks: {
+          color: 'white',
+          fontSize: 12,
         },
+      },
+      xAxes: {
+        grid: {
+          color: 'grey',
+        },
+        ticks: {
+          color: 'white',
+          fontSize: 12,
+        }
+      },
     },
   }
 
-  switch (menu){
-    case 'Line Chart':
-      return (
-        <div className="upperright">
-          <div class = "title">
-            <h1>{menu} of {props.country}</h1>
-            <Dropdown 
-              menu = {menu}
-              setMenu = {setMenu}
-            />
-          </div>
-          
+  const getChart = (menu) => {
+    if (!country) {
+      return (<h1>No data</h1>)
+    }
+    switch (menu) {
+      case 'Line Chart':
+        return (
           <Line
-            data= {line_data}
-            options= {options}
+            data={line_data}
+            options={options}
           />
-        </div>
-      )
-    case 'Area Chart':
-      return (
-        <div className="upperright">
-          <div class = "title">
-            <h1>{menu} of {props.country}</h1>
-            <Dropdown 
-              menu = {menu}
-              setMenu = {setMenu}
-            />
-          </div>
+        )
+      case 'Area Chart':
+        return (
           <Line
-            data= {area_data}
-            options= {options}
+            data={area_data}
+            options={options}
           />
-        </div>
-      )
-    case 'Bar Chart':
-      return (
-        <div className="upperright">
-          <div class = "title">
-            <h1>{menu} of {props.country}</h1>
-            <Dropdown 
-              menu = {menu}
-              setMenu = {setMenu}
-            />
-          </div>
+        )
+      case 'Bar Chart':
+        return (
           <Bar
-            data= {bar_data}
-            options= {options}
+            data={bar_data}
+            options={options}
           />
-        </div>
-      )
-    default:
-      return (<h1>Unknown Chart</h1>)
-  }
-  
+        )
+      default:
+        return (<h1>Unknown Chart</h1>)
+    }
+  };
+
+  return (
+    <div className="upperright">
+      <div class="title">
+        {country && <h1>{menu} of {props.country}</h1>}
+        {!country && <h1>Select a country</h1>}
+        <Dropdown
+          menu={menu}
+          setMenu={setMenu}
+        />
+      </div>
+      {getChart(menu)}
+    </div>
+  )
 }
 
 export default Upperright;
