@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./button";
 import "./buttongroup.css";
 
-function ButtonGroup(props) {
-  const [toggledButton, setToggledButton] = React.useState(0);
+function ButtonGroup({ buttons }) {
+  const [toggledButton, setToggledButton] = useState(0);
   return (
     <div className="buttonGroup">
-      {props.buttons.map((button, index) => (
+      {buttons.map((button, index) => (
         <Button
+          key={button.text}
           imageURL={button.imageURL}
           className={
             toggledButton === index ? "button toggled" : "button notToggled"
