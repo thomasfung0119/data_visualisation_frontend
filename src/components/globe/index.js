@@ -186,7 +186,7 @@ export const Globe = (props) => {
         });
 
       scale.append('text')
-        .text(maxValue)
+        .text(maxValue.toLocaleString())
         .attr('x', 300)
         .attr("transform", `translate(${10}, ${13})`)
         .style('fill', "#ccc")
