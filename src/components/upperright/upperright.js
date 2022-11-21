@@ -23,10 +23,16 @@ function Upperright(props) {
     Filler,
     Legend
   )
+  
+  const [menu, setMenu] = useState("Line Chart");
+  const [lineData1, setLineData1] = useState([400, 300, 350, 200, 280]);
+  const [lineData2, setLineData2] = useState([300, 400, 350, 100, 220]);
+  const [scatterData1, setScatterData1] = useState([{x: -10, y: 0}, {x: 0, y: 10}, {x: 10, y: 5}, {x: 0.5, y: 5.5}]);
+  const [scatterData2, setScatterData2] = useState([{x: -2, y: 0}, {x: 3, y: 10}, {x: 10, y: 6}, {x: 1.5, y: 5.5}]);
 
   // PRNG using country name
   useEffect(() => {
-    const country = props.country;
+    const { country } = props;
     // seed = sum of first 4 character of the name of country
     let next = country.charCodeAt(0) + country.charCodeAt(1) + country.charCodeAt(2) + country.charCodeAt(3);
     // generate line data
@@ -52,12 +58,6 @@ function Upperright(props) {
     setScatterData1(pt1);
     setScatterData2(pt2);
   }, [props.country])
-
-  const [menu, setMenu] = useState("Line Chart");
-  const [lineData1, setLineData1] = useState([400, 300, 350, 200, 280]);
-  const [lineData2, setLineData2] = useState([300, 400, 350, 100, 220]);
-  const [scatterData1, setScatterData1] = useState([{x: -10, y: 0}, {x: 0, y: 10}, {x: 10, y: 5}, {x: 0.5, y: 5.5}]);
-  const [scatterData2, setScatterData2] = useState([{x: -2, y: 0}, {x: 3, y: 10}, {x: 10, y: 6}, {x: 1.5, y: 5.5}]);
   
   // the main operation for PRNG
   const randNext = (num) => {
