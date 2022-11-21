@@ -16,6 +16,7 @@ import Dropdown from './dropdown'
 
 function Upperright(props) {
   const { country } = props;
+
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -35,6 +36,7 @@ function Upperright(props) {
 
   // PRNG using country name
   useEffect(() => {
+    if (!country) return;
     // seed = sum of first 4 character of the name of country
     let next = country.charCodeAt(0) + country.charCodeAt(1) + country.charCodeAt(2) + country.charCodeAt(3);
     // generate line data
@@ -59,7 +61,7 @@ function Upperright(props) {
     }
     setScatterData1(pt1);
     setScatterData2(pt2);
-  }, [props.country])
+  }, [country])
 
   // the main operation for PRNG
   const randNext = (num) => {
