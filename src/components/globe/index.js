@@ -7,9 +7,12 @@ export const Globe = (props) => {
   const { sensitivity, onClick, valueMapper, interpolator } = props;
   const svgRef = useRef(null);
 
+  let rendered = false;
+
   useEffect(() => {
+    if (rendered) return;
     const width = svgRef.current.parentElement.clientWidth;
-    const height = svgRef.current.parentElement.clientHeight - 70;
+    const height = svgRef.current.parentElement.clientHeight - 111; // minus buttons and title height
     // the main svg
     const svg = d3.select(svgRef.current)
       .attr('width', width)
@@ -174,7 +177,12 @@ export const Globe = (props) => {
         });
 
     })();
-  }, []);
+
+    return () => {
+      // clean up function, avoid duplicate countries and scale due to async call
+      rendered = true;
+    }
+  }, [sensitivity, interpolator]);
 
   return (
     <svg ref={svgRef} />
