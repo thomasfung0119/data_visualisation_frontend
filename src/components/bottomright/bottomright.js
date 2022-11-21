@@ -2,13 +2,15 @@ import './bottomright.css';
 import { Timeline } from '../timeline';
 
 function Bottomright(props) {
-  
+  const { country } = props;
+
   return (
     <div className="bottomright">
-      <h1> {props.country} Time Series </h1>
-      <Timeline country = {props.country} />
+      {country && <h1> {country} Time Series </h1>}
+      {!country && <h1> Select a country </h1>}
+      <Timeline country={country} />
     </div>
-    
+
   )
 }
 

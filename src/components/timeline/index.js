@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-export const Timeline = (country) => {
+export const Timeline = (props) => {
+  const { country } = props;
   const svgRef = useRef(null);
 
   useEffect(() => {
@@ -63,7 +64,7 @@ export const Timeline = (country) => {
         .style("fill", "Aqua")
         .attr('cx', (d) => xScale(d))
         .attr('cy', 20)
-        .attr('r', (d) => Math.floor(Math.random() * 6) + 5)
+        .attr('r', (d) => country ? Math.floor(Math.random() * 6) + 5 : 0)
     })();
   }, [country]);
 
