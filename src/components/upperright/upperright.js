@@ -24,6 +24,7 @@ function Upperright(props) {
   const [smokeData, setSmokeData] = useState([])
   const [exerciseData, setExerciseData] = useState([])
   useEffect(() => {
+    if (!country) return;
     const fetch = 'http://127.0.0.1:5000/api/getData?country=' + country;
     axios.get(fetch)
       .then(res => {
