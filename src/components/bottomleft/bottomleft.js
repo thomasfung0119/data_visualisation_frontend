@@ -55,15 +55,17 @@ function Bottomleft(props) {
         <div class="title">Select a country on the Globe to view its data</div>
       )}
       {data && (
-        <Globe
-          sensitivity={75}
-          onClick={(country) => setCountry(country)}
-          valueMapper={(country) =>
-            data[country] ? getData(data[country]) / max : null
-          }
-          interpolator={getInterpolator()}
-          maxValue={max}
-        />
+        <div style={{ width: "100%", height: "100%" }}>
+          <Globe
+            sensitivity={75}
+            onClick={(country) => setCountry(country)}
+            valueMapper={(country) =>
+              data[country] ? getData(data[country]) / max : null
+            }
+            interpolator={getInterpolator()}
+            maxValue={max}
+          />
+        </div>
       )}
     </div>
   );
