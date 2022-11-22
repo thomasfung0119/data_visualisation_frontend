@@ -1,4 +1,4 @@
-import { Line, Scatter, Bar } from "react-chartjs-2"
+import { Line, Bar } from "react-chartjs-2"
 import {
   Chart as ChartJS,
   BarElement,
@@ -24,7 +24,7 @@ function Upperright(props) {
   const [smokeData, setSmokeData] = useState([])
   const [exerciseData, setExerciseData] = useState([])
   useEffect(() => {
-    const fetch = 'http://127.0.0.1:5000/api/getData?country=' + country;
+    const fetch = 'http://127.0.0.1:5000/api/getData?country=' + props.country;
     axios.get(fetch)
       .then(res => {
         setXaxis(res.data.map(({ Date }) => Date));
