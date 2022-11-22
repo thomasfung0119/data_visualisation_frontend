@@ -1,8 +1,0 @@
-.buttonGroup {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  align-self: flex-start;
-  justify-self: flex-start;
-  margin-bottom: auto;
-}
