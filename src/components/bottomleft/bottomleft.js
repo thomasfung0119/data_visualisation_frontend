@@ -2,6 +2,7 @@ import React from "react";
 import { Globe } from "../globe";
 import "./bottomleft.css";
 import * as d3 from "d3";
+import ButtonGroup from "../buttons/buttongroup";
 
 function Bottomleft(props) {
   const { country, setCountry, data } = props;
@@ -15,6 +16,12 @@ function Bottomleft(props) {
 
   return (
     <div className="bottomleft">
+      <ButtonGroup
+        buttons={[
+          { text: "death", imageURL: "./death.svg" },
+          { text: "infection", imageURL: "./infection.svg" },
+        ]}
+      />
       {country && (
         <div class="title">You are checking covid data of {country}</div>
       )}

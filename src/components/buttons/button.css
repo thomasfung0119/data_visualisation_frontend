@@ -1,0 +1,18 @@
+.button {
+  background-color: white;
+  cursor: pointer;
+  margin: 1vh;
+  border-radius: 10px;
+}
+
+.toggled {
+  opacity: 0.6;
+}
+
+.notToggled {
+  opacity: 1;
+}
+
+.Image {
+  height: 5vh;
+}
