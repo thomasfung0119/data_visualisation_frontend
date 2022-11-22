@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Button from "./button";
 import "./buttongroup.css";
 
-function ButtonGroup({ buttons, selectedButton, onToggle }) {
+function ButtonGroup({ buttons }) {
+  const [toggledButton, setToggledButton] = useState(0);
   return (
     <div className="buttonGroup">
       {buttons.map((button, index) => (
@@ -10,10 +11,10 @@ function ButtonGroup({ buttons, selectedButton, onToggle }) {
           key={button.text}
           imageURL={button.imageURL}
           className={
-            button.text === selectedButton ? "button toggled" : "button notToggled"
+            toggledButton === index ? "button toggled" : "button notToggled"
           }
           onClick={() => {
-            onToggle(button.text);
+            setToggledButton(index);
           }}
         />
       ))}
