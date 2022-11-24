@@ -19,12 +19,12 @@
 .bottomleft .worst {
   position: absolute;
   bottom: 60px;
-  left: 318px;
+  left: 280px;
   color: white;
 }
 .bottomleft .best {
   position: absolute;
   bottom: 60px;
-  left: 775px;
+  left: 700px;
   color: white;
 }

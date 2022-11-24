@@ -31,10 +31,10 @@ function Upperleft(props) {
           // The constant used here (e.g. 2e9) is for placeholder only
           // Later can be replaced by the population of the country or other sorts of data
           // 0.1 to 0.9 is used to prevent the color of the text becoming too dark to read
-          const caseRange = 1 - Math.min(Math.max(res.data['MortalityCase']/60e6, 0.1), 0.9);
-          const mortaltyRange = Math.min(Math.max(res.data['VaccineCorrelation']/100, 0.1), 0.9);
-          const vaccineDeathRange = 1 - Math.min(Math.max(res.data['SmokeCorrelation']/100, 0.1), 0.9);
-          const correlationRange = Math.min(Math.max(res.data['ExerciseCorrelation']/100, 0.1), 0.9);
+          const caseRange = Math.min(Math.max(res.data['MortalityCase']/60e6, 0.1), 0.9);
+          const mortaltyRange = 1- Math.min(Math.max(res.data['VaccineCorrelation']/100, 0.1), 0.9);
+          const vaccineDeathRange = Math.min(Math.max(res.data['SmokeCorrelation']/100, 0.1), 0.9);
+          const correlationRange = 1- Math.min(Math.max(res.data['ExerciseCorrelation']/100, 0.1), 0.9);
 
           setConfirmedCaseColor(interpolateBlues(caseRange));
           setMortalityCaseColor(interpolateBlues(mortaltyRange));
