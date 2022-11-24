@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import { interpolateRdBu } from 'd3';
+import { interpolateBlues } from 'd3';
 import './upperleft.css';
 
 function Upperleft(props) {
@@ -36,10 +36,10 @@ function Upperleft(props) {
           const vaccineDeathRange = 1 - Math.min(Math.max(res.data['SmokeCorrelation']/100, 0.1), 0.9);
           const correlationRange = Math.min(Math.max(res.data['ExerciseCorrelation']/100, 0.1), 0.9);
 
-          setConfirmedCaseColor(interpolateRdBu(caseRange));
-          setMortalityCaseColor(interpolateRdBu(mortaltyRange));
-          setVaccinatedDeathColor(interpolateRdBu(vaccineDeathRange));
-          setCorrelationColor(interpolateRdBu(correlationRange));
+          setConfirmedCaseColor(interpolateBlues(caseRange));
+          setMortalityCaseColor(interpolateBlues(mortaltyRange));
+          setVaccinatedDeathColor(interpolateBlues(vaccineDeathRange));
+          setCorrelationColor(interpolateBlues(correlationRange));
         })
         .catch(err => {
           console.log(err);

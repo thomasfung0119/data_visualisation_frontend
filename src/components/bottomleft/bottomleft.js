@@ -28,7 +28,7 @@ function Bottomleft(props) {
           valueMapper={(country) =>
             data[country] ? data[country]?.ConfirmedCase / max : null
           }
-          interpolator={d3.interpolateRdBu}
+          interpolator={d3.interpolateBlues}
         />
       )}
       {data && (
