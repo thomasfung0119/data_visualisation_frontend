@@ -7,7 +7,7 @@ export const Timeline = (props) => {
 
   useEffect(() => {
     const width = svgRef.current.parentElement.clientWidth;
-    const height = 45;
+    const height = 40;
     // the main svg
     const svg = d3.select(svgRef.current)
       .attr('width', width)
@@ -61,7 +61,7 @@ export const Timeline = (props) => {
         .data(data)
         .enter().append("circle")
         .attr("class", "time-line-bubble")
-        .style("fill", "Aqua")
+        .style("fill", "#75e2faa0")
         .attr('cx', (d) => xScale(d))
         .attr('cy', 20)
         .attr('r', (d) => country ? Math.floor(Math.random() * 6) + 5 : 0)
