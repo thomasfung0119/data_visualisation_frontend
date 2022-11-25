@@ -8,6 +8,7 @@ import Bottomright from './components/bottomright/bottomright';
 function App() {
   const [country, setCountry] = useState(null);
   const [data, setData] = useState(null);
+  const [confirmedCaseData, setConfirmedCaseData] = useState(null);
 
   const fetchData = async () => {
     const res = await fetch("http://localhost:5000/api/getAll");
@@ -37,11 +38,13 @@ function App() {
         <div class="App-div3">
           <Upperright
             country={country}
+            setConfirmedCaseData={setConfirmedCaseData}
           />
         </div>
         <div class="App-div4">
           <Bottomright
             country={country}
+            confirmedCaseData={confirmedCaseData}
           />
         </div>
       </div>
