@@ -2,13 +2,17 @@ import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
 export const Timeline = (props) => {
-  const { country } = props;
+  const { country, confirmedCaseData } = props;
   const svgRef = useRef(null);
 
   useEffect(() => {
+    if (!confirmedCaseData) return;
     const width = svgRef.current.parentElement.clientWidth;
-    const height = 40;
+    const height = svgRef.current.parentElement.clientHeight*.3;
     // the main svg
+    var div = d3.select("body").append("div")
+     .attr("class", "tooltip")
+     .style("opacity", 0);
     const svg = d3.select(svgRef.current)
       .attr('width', width)
       .attr('height', height);
@@ -18,28 +22,30 @@ export const Timeline = (props) => {
 
     //draw timeline
     (async () => {
-      const margin = { left: 30, top: 10, right: 10, bottom: 20 };
+      const margin = { left: width*.07, top: height*.1, right: width*.07, bottom: height*.2 };
 
-      const data = [
-        new Date("2021-08"),
-        new Date("2021-09"),
-        new Date("2021-10"),
-        new Date("2021-11"),
-        new Date("2021-12"),
-        new Date("2022-01"),
-        new Date("2022-02"),
-        new Date("2022-03"),
-        new Date("2022-04"),
-        new Date("2022-05"),
-        new Date("2022-06"),
-      ];
+      const dates = [];
+      let minNo = Infinity;
+      let maxNo = -Infinity;
+      confirmedCaseData.forEach(([dateString, caseNo], i) => {
+        let date = new Date(dateString);
+        confirmedCaseData[i][0] = date;
+        dates.push(date);
+        if (caseNo < minNo) minNo = caseNo;
+        if (caseNo > maxNo) maxNo = caseNo;
+      });
+
+      const linearScale = d3.scaleLinear()
+        .range([0.4, 1])
+        .domain([minNo, maxNo])
 
       const xScale = d3.scaleTime()
         .range([margin.left, width - margin.right])
-        .domain(d3.extent(data));
+        .domain(d3.extent(dates));
 
       // add axis
       const xAxis = d3.axisBottom(xScale)
+        .tickValues(dates)
         .tickFormat(d3.timeFormat('%Y-%m'));
 
       svg.append('g')
@@ -54,19 +60,23 @@ export const Timeline = (props) => {
         .style("color", "white")
         .style("stroke-width", 0.3);
 
+      var div = d3.select("body").append("div")
+     .attr("class", "tooltip")
+     .style("opacity", 0);
       // add time line bubbles
       svg.append('g')
         .attr("class", "time-line")
         .selectAll("circle")
-        .data(data)
+        .data(confirmedCaseData)
         .enter().append("circle")
         .attr("class", "time-line-bubble")
         .style("fill", "#75e2faa0")
-        .attr('cx', (d) => xScale(d))
-        .attr('cy', 20)
-        .attr('r', (d) => country ? Math.floor(Math.random() * 6) + 5 : 0)
+        .attr('cx', (d) => xScale(d[0]))
+        .attr('cy', height*.5)
+        .attr('r', (d) => country ? Math.floor(linearScale(d[1]) * height*.2) : 0)
+
     })();
-  }, [country]);
+  }, [confirmedCaseData]);
 
   return (
     <svg ref={svgRef} />
