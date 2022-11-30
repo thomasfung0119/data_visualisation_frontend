@@ -16,7 +16,7 @@ import Dropdown from './dropdown'
 import axios from 'axios';
 
 function Upperright(props) {
-  const { country, setConfirmedCaseData } = props;
+  const { country } = props;
   const [xaxis, setXaxis] = useState([])
   const [confirmedData, setConfirmedData] = useState([])
   const [deathData, setDeathData] = useState([])
@@ -24,13 +24,11 @@ function Upperright(props) {
   const [smokeData, setSmokeData] = useState([])
   const [exerciseData, setExerciseData] = useState([])
   useEffect(() => {
-    if (!country) return;
     const fetch = 'http://127.0.0.1:5000/api/getData?country=' + country;
     axios.get(fetch)
       .then(res => {
         setXaxis(res.data.map(({ Date }) => Date));
         setConfirmedData(res.data.map(({ ConfirmedCase }) => ConfirmedCase));
-        setConfirmedCaseData(res.data.map(({ Date, ConfirmedCase }) => [Date, ConfirmedCase]));
         setDeathData(res.data.map(({ DeathCase }) => DeathCase));
         setVaccineData(res.data.map(({ DeathWithVaccine }) => DeathWithVaccine));
         setSmokeData(res.data.map(({ DeathWithSmoke }) => DeathWithSmoke));
@@ -39,7 +37,7 @@ function Upperright(props) {
       .catch(err => {
         console.log(err)
       })
-  }, [country])
+  }, [props])
 
   ChartJS.register(
     CategoryScale,
@@ -86,51 +84,6 @@ function Upperright(props) {
         backgroundColor: 'rgba(189, 126, 190, 0.5)',
       },
       {
-        fill: false,
-        label: "Exercise Death",
-        data: exerciseData,
-        borderColor: 'rgb(255, 181, 90)',
-        backgroundColor: 'rgba(255, 181, 90, 0.5)',
-      }
-    ]
-  }
-  const line_bar_data = {
-    labels: xaxis,
-    datasets: [
-      {
-        type: 'line',
-        fill: false,
-        label: "Confirmed",
-        data: confirmedData,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        type: 'line',
-        fill: false,
-        label: "Death",
-        data: deathData,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-      {
-        type: 'bar',
-        fill: false,
-        label: "Vacinnated Death",
-        data: vaccineData,
-        borderColor: 'rgb(178, 224, 97)',
-        backgroundColor: 'rgba(178, 224, 97, 0.5)',
-      },
-      {
-        type: 'bar',
-        fill: false,
-        label: "Smoke Death",
-        data: smokeData,
-        borderColor: 'rgb(189, 126, 190)',
-        backgroundColor: 'rgba(189, 126, 190, 0.5)',
-      },
-      {
-        type: 'bar',
         fill: false,
         label: "Exercise Death",
         data: exerciseData,
@@ -262,13 +215,6 @@ function Upperright(props) {
         return (
           <Line
             data={area_data}
-            options={options}
-          />
-        )
-      case 'Line Bar Chart':
-        return (
-          <Line
-            data={line_bar_data}
             options={options}
           />
         )
