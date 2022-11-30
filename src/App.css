@@ -16,23 +16,23 @@
 
 .App-div1 { 
   grid-area: 1 / 1 / 3 / 4; 
-  background-color: #a3a3a340;
+  background-color: #a3a3a390;
   border-style: solid;
-  border-color:#ffffff70;
+  border-color:#ffffffa0;
   border-width: 2px;
   border-radius: 25px;
 }
 .App-div2 { 
   grid-area: 3 / 1 / 9 / 4; 
-  background-color: #a3a3a340; 
+  background-color: #a3a3a390; 
   border-style: solid;
-  border-color:#ffffff70;
+  border-color:#ffffffa0;
   border-width: 2px;
   border-radius: 25px;
 }
 .App-div3 { 
   grid-area: 1 / 4 / 6 / 6; 
-  background-color: #a3a3a340; 
+  background-color: #a3a3a390; 
   border-style: solid;
   border-color:#ffffff70;
   border-width: 2px;
@@ -40,7 +40,7 @@
 }
 .App-div4 { 
   grid-area: 6 / 4 / 9 / 6; 
-  background-color: #a3a3a340; 
+  background-color: #a3a3a390; 
   border-style: solid;
   border-color:#ffffff70;
   border-width: 2px;

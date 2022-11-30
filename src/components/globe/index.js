@@ -12,7 +12,9 @@ export const Globe = (props) => {
   useEffect(() => {
     if (rendered) return;
     const width = svgRef.current.parentElement.clientWidth;
+
     const height = svgRef.current.parentElement.clientHeight - 20; // minus buttons and title height
+
     // the main svg
     const svg = d3.select(svgRef.current)
       .attr('width', width)

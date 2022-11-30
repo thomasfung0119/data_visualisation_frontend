@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import { interpolateRdBu } from 'd3';
+import { interpolateBlues } from 'd3';
 import './upperleft.css';
 
 function Upperleft(props) {
@@ -23,23 +23,23 @@ function Upperleft(props) {
         .then(res => {
           console.log(res);
           setError(false);
-          setConfirmedCase(res.data['ConfirmedCase']);
-          setMortalityCase(res.data['MortalityCase']);
-          setVaccinatedDeath(res.data['VaccinatedDeathCase']);
-          setCorrelation(res.data['CorrelationInPercentage']);
+          setConfirmedCase(res.data['MortalityCase']);
+          setMortalityCase(res.data['VaccineCorrelation']);
+          setVaccinatedDeath(res.data['SmokeCorrelation']);
+          setCorrelation(res.data['ExerciseCorrelation']);
 
           // The constant used here (e.g. 2e9) is for placeholder only
           // Later can be replaced by the population of the country or other sorts of data
           // 0.1 to 0.9 is used to prevent the color of the text becoming too dark to read
-          const caseRange = 1 - Math.min(Math.max(res.data['ConfirmedCase']/1.5e9, 0.1), 0.9);
-          const mortaltyRange = 1 - Math.min(Math.max(res.data['MortalityCase']/60e6, 0.1), 0.9);
-          const vaccineDeathRange = 1 - Math.min(Math.max(res.data['VaccinatedDeathCase']/25e6, 0.1), 0.9);
-          const correlationRange = 1 - Math.min(Math.max(res.data['CorrelationInPercentage']/100, 0.1), 0.9);
+          const caseRange = Math.min(Math.max(res.data['MortalityCase']/60e6, 0.1), 0.9);
+          const mortaltyRange = 1- Math.min(Math.max(res.data['VaccineCorrelation']/100, 0.1), 0.9);
+          const vaccineDeathRange = Math.min(Math.max(res.data['SmokeCorrelation']/100, 0.1), 0.9);
+          const correlationRange = 1- Math.min(Math.max(res.data['ExerciseCorrelation']/100, 0.1), 0.9);
 
-          setConfirmedCaseColor(interpolateRdBu(caseRange));
-          setMortalityCaseColor(interpolateRdBu(mortaltyRange));
-          setVaccinatedDeathColor(interpolateRdBu(vaccineDeathRange));
-          setCorrelationColor(interpolateRdBu(correlationRange));
+          setConfirmedCaseColor(interpolateBlues(caseRange));
+          setMortalityCaseColor(interpolateBlues(mortaltyRange));
+          setVaccinatedDeathColor(interpolateBlues(vaccineDeathRange));
+          setCorrelationColor(interpolateBlues(correlationRange));
         })
         .catch(err => {
           console.log(err);
@@ -55,13 +55,13 @@ function Upperleft(props) {
   return (
     <div className='upperleft'>
       <div class="upperleft-parent">
-        <div class="upperleft-div1"> <h1>Total Confirmed Case</h1> </div>
-        <div class="upperleft-div2"> <h1>Total Mortality Case</h1> </div>
-        <div class="upperleft-div3"> <h1>Total Vaccinate Death</h1> </div>
-        <div class="upperleft-div4"> <h1>Correlation Rate</h1> </div>
+        <div class="upperleft-div1"> <h1>Mortality Case</h1> </div>
+        <div class="upperleft-div2"> <h1>Vaccine Correlation</h1> </div>
+        <div class="upperleft-div3"> <h1>Smoke Correlation</h1> </div>
+        <div class="upperleft-div4"> <h1>Exercise Correlation</h1> </div>
         <div class="upperleft-div5"> <h2 style={{ color: confirmedCaseColor }}> {(!error) ? confirmedCase?.toLocaleString() : '-'} </h2> </div>
-        <div class="upperleft-div6"> <h2 style={{ color: mortalityCaseColor }}> {(!error) ? mortalityCase?.toLocaleString() : '-'} </h2> </div>
-        <div class="upperleft-div7"> <h2 style={{ color: vaccinatedDeathColor }}> {(!error) ? vaccinatedDeath?.toLocaleString() : '-'} </h2> </div>
+        <div class="upperleft-div6"> <h2 style={{ color: mortalityCaseColor }}> {(!error) ? mortalityCase?.toLocaleString() : '-'}% </h2> </div>
+        <div class="upperleft-div7"> <h2 style={{ color: vaccinatedDeathColor }}> {(!error) ? vaccinatedDeath?.toLocaleString() : '-'}% </h2> </div>
         <div class="upperleft-div8"> <h2 style={{ color: correlationColor }}> {(!error) ? parseFloat(correlation).toFixed(2) : '-'}% </h2> </div>
       </div>
     </div>
