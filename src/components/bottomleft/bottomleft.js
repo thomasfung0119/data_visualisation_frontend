@@ -67,12 +67,6 @@ function Bottomleft(props) {
           />
         </div>
       )}
-      {data && (
-      <div>
-        <div class="worst">Less Confirmed Case</div> 
-        <div class="best">More Confirmed Case</div>
-      </div>
-      )}
     </div>
   );
 }
