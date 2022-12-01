@@ -1,27 +1,34 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
 export const Timeline = (props) => {
   const { country } = props;
   const svgRef = useRef(null);
+  const [confirmedCaseData, setCnfirmedCaseData] = useState(null);
 
   useEffect(() => {
     if (!country) return;
-    const width = svgRef.current.parentElement.clientWidth;
-    const height = svgRef.current.parentElement.clientHeight*.3;
-    // the main svg
-    const svg = d3.select(svgRef.current)
-      .attr('width', width)
-      .attr('height', height);
-
-    // remove old element before rebuild
-    svg.selectAll('*').remove();
-
-    //draw timeline
     fetch('http://127.0.0.1:5000/api/getData?country=' + country)
     .then(res => res.json())
     .then(data => {
-      let confirmedCaseData = data.map(({ Date, ConfirmedCase }) => [Date, ConfirmedCase])
+      setCnfirmedCaseData(data.map(({ Date, ConfirmedCase }) => [Date, ConfirmedCase]))
+    });
+  }, [country]);
+
+  useEffect(() => {
+    
+      if (!country) return;
+      const width = svgRef.current.parentElement.clientWidth;
+      const height = svgRef.current.parentElement.clientHeight*.3;
+      // the main svg
+      const svg = d3.select(svgRef.current)
+        .attr('width', width)
+        .attr('height', height);
+
+      // remove old element before rebuild
+      svg.selectAll('*').remove();
+
+      //draw timeline
       const margin = { left: width*.07, top: height*.1, right: width*.07, bottom: height*.2 };
 
       const dates = [];
@@ -71,8 +78,10 @@ export const Timeline = (props) => {
         .attr('cx', (d) => xScale(d[0]))
         .attr('cy', height*.5)
         .attr('r', (d) => country ? Math.floor(linearScale(d[1]) * height*.2) : 0)
-    });
-  }, [country]);
+  }, [confirmedCaseData]);
+
+  // {
+  // }
 
   return (
     <svg ref={svgRef} />
