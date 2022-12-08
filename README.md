@@ -15,6 +15,7 @@ Visit `http://localhost:3000` in your browser. The website should be up & runnin
 > Start a Testing Server for React
 
 ```bash
+$ npm install
 $ npm start
 ```
 
